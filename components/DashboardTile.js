@@ -1,32 +1,46 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { colors } from '../styles/theme';
+import { View, StyleSheet } from 'react-native';
+import { Card, Text, useTheme, TouchableRipple } from 'react-native-paper';
 
 export default function DashboardTile({ title, count, onPress }) {
+  const { colors } = useTheme();
+
   return (
-    <TouchableOpacity style={styles.tile} onPress={onPress}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.count}>{count}</Text>
-    </TouchableOpacity>
+    <TouchableRipple onPress={onPress} style={styles.tile(colors)}>
+      <Card style={styles.card(colors)}>
+        <Card.Content style={styles.content}>
+          <Text style={styles.title(colors)}>{title}</Text>
+          <Text style={styles.count(colors)}>{count}</Text>
+        </Card.Content>
+      </Card>
+    </TouchableRipple>
   );
 }
 
 const styles = StyleSheet.create({
-  tile: {
+  tile: (colors) => ({
+    marginBottom: 10,
+    borderRadius: 8,
+    overflow: 'hidden',
+  }),
+  card: (colors) => ({
     backgroundColor: colors.primary,
     borderRadius: 8,
-    padding: 20,
-    marginBottom: 10,
+    paddingVertical: 20,
+    alignItems: 'center',
+    elevation: 4,
+  }),
+  content: {
     alignItems: 'center',
   },
-  title: {
+  title: (colors) => ({
     fontSize: 18,
-    color: colors.text,
+    color: colors.onPrimary,
     marginBottom: 10,
-  },
-  count: {
+  }),
+  count: (colors) => ({
     fontSize: 24,
     fontWeight: 'bold',
-    color: colors.text,
-  },
+    color: colors.onPrimary,
+  }),
 });

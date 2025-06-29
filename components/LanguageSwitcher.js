@@ -1,30 +1,45 @@
-import React, { useContext } from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { Menu, IconButton, Text } from 'react-native-paper';
 import LanguageContext from '../contexts/LanguageContext';
 
 export default function LanguageSwitcher() {
   const { language, setLanguage } = useContext(LanguageContext);
+  const [visible, setVisible] = useState(false);
+
+  const openMenu = () => setVisible(true);
+  const closeMenu = () => setVisible(false);
+
+  const languages = [
+    { code: 'en', label: 'English' },
+    { code: 'es', label: 'Español' },
+  ];
+
+  const selectedLanguage = languages.find(l => l.code === language) || languages[0];
 
   return (
-    <View style={styles.container}>
-      <Button
-        title="English"
-        onPress={() => setLanguage('en')}
-        color={language === 'en' ? '#4682B4' : '#ADD8E6'}
-      />
-      <Button
-        title="Español"
-        onPress={() => setLanguage('es')}
-        color={language === 'es' ? '#4682B4' : '#ADD8E6'}
-      />
-    </View>
+    <Menu
+      visible={visible}
+      onDismiss={closeMenu}
+      anchor={
+        <IconButton
+          icon="translate" // language symbol icon from react-native-paper vector-icons
+          size={24}
+          onPress={openMenu}
+          accessibilityLabel="Select language"
+        />
+      }
+    >
+      {languages.map(({ code, label }) => (
+        <Menu.Item
+          key={code}
+          onPress={() => {
+            setLanguage(code);
+            closeMenu();
+          }}
+          title={label}
+          leadingIcon={code === language ? 'check' : null} // show checkmark for selected language
+        />
+      ))}
+    </Menu>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 10,
-  },
-});

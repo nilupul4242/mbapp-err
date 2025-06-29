@@ -1,36 +1,44 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { colors } from '../styles/theme';
+import { StyleSheet } from 'react-native';
+import { Card, Title, Paragraph, useTheme } from 'react-native-paper';
 
 export default function IssueList({ issue }) {
+  const { colors } = useTheme();
+
   return (
-    <View style={styles.item}>
-      <Text style={styles.title}>{issue.title}</Text>
-      <Text style={styles.description}>{issue.description}</Text>
-      <Text style={styles.meta}>Room: {issue.roomNumber} | Status: {issue.status}</Text>
-    </View>
+    <Card style={[styles.card, { backgroundColor: colors.surface }]}>
+      <Card.Content>
+        <Title style={[styles.title, { color: colors.primary }]}>
+          {issue.title}
+        </Title>
+        <Paragraph style={[styles.description, { color: colors.text }]}>
+          {issue.description}
+        </Paragraph>
+        <Paragraph style={[styles.meta, { color: colors.disabled }]}>
+          Room: {issue.roomNumber} | Status: {issue.status}
+        </Paragraph>
+      </Card.Content>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
-  item: {
-    backgroundColor: colors.primary,
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 10,
+  card: {
+    marginBottom: 12,
+    borderRadius: 10,
+    elevation: 4,
   },
   title: {
+    fontWeight: '700',
     fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.text,
+    marginBottom: 6,
   },
   description: {
-    fontSize: 14,
-    color: colors.text,
-    marginVertical: 5,
+    fontSize: 15,
+    marginBottom: 8,
   },
   meta: {
-    fontSize: 12,
-    color: colors.secondary,
+    fontSize: 13,
+    fontStyle: 'italic',
   },
 });

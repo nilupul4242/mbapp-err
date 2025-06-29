@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AuthProvider } from './contexts/AuthContext';
 import AppNavigator from './navigation/AppNavigator';
 import LanguageContext from './contexts/LanguageContext';
+import { Provider as PaperProvider } from 'react-native-paper';
+
 
 export default function App() {
   const [language, setLanguage] = useState('en');
@@ -10,9 +12,11 @@ export default function App() {
   return (
     <LanguageContext.Provider value={{ language, setLanguage }}>
       <AuthProvider>
+         <PaperProvider>
         <NavigationContainer>
           <AppNavigator />
         </NavigationContainer>
+        </PaperProvider>
       </AuthProvider>
     </LanguageContext.Provider>
   );
