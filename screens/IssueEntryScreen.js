@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import { TextInput, Button, Card, Menu, Divider } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import api from '../services/api';
+import Toast from 'react-native-root-toast';
 
 export default function IssueEntryScreen({ navigation }) {
   const { colors } = useTheme();
@@ -26,14 +27,45 @@ export default function IssueEntryScreen({ navigation }) {
     });
   };
 
-  const handleSubmit = async () => {
-    try {
-      await api.post('/add-issue', formState);
-      navigation.navigate('Dashboard');
-    } catch (error) {
-      console.error('Error submitting issue:', error);
-    }
-  };
+const handleSubmit = async () => {
+  try {
+    const res = await fetch('http://172.20.10.2:5000/api/Maintenance/add-issue', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formState),
+    });
+
+    if (!res.ok) throw new Error((await res.json()).message || 'Submission failed');
+
+      Toast.show('Issue submitted successfully!', {
+      duration: Toast.durations.LONG,
+      position: Toast.positions.BOTTOM,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+    });
+
+    //Clear the form
+    setFormState({
+      roomNumber: '',
+      issueTitle: '',
+      issueDescription: '',
+      category: '',
+      source: '',
+      assignedPerson: '',
+    });
+
+    // Also close any open menus (optional)
+    setCategoryMenuVisible(false);
+    setAssignedPersonMenuVisible(false);
+
+
+  } catch (err) {
+    console.error('Error:', err.message);
+    alert('Error submitting issue: ' + err.message);
+  }
+};
 
   return (
     <View style={styles.container(colors)}>

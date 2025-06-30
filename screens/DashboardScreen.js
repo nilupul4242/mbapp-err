@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useCallback , useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { ActivityIndicator, Button, Card, Text, useTheme, Title, Divider } from 'react-native-paper';
+import { ActivityIndicator, Card, Text, useTheme, Title } from 'react-native-paper';
 import api from '../services/api';
 import DashboardTile from '../components/DashboardTile';
 import LanguageSwitcher from '../components/LanguageSwitcher';
@@ -8,9 +9,10 @@ import LanguageContext from '../contexts/LanguageContext';
 
 export default function DashboardScreen({ navigation }) {
   const [dashboardData, setDashboardData] = useState({
-    IssuesReportedToday: 0,
-    IssuesResolvedToday: 0,
+    issuesReportedToday: 0,
+    issuesResolvedToday: 0,
   });
+
   const [loading, setLoading] = useState(true);
   const { language } = useContext(LanguageContext);
   const { colors } = useTheme();
@@ -32,20 +34,33 @@ export default function DashboardScreen({ navigation }) {
 
   const t = translations[language] || translations.en;
 
-  useEffect(() => {
+useFocusEffect(
+  useCallback(() => {
+    let isActive = true;
+
     const fetchDashboardData = async () => {
       try {
-        const response = await api.get('/dashboard');
-        setDashboardData(response.data);
+        setLoading(true);
+        const response = await fetch('http://172.20.10.2:5000/api/Maintenance/dashboard');
+        const data = await response.json();
+        if (isActive) {
+          setDashboardData(data);
+        }
       } catch (error) {
-        console.error('Error fetching dashboard data:', error);
+        console.error('Fetch error:', error);
       } finally {
-        setLoading(false);
+        if (isActive) setLoading(false);
       }
     };
 
     fetchDashboardData();
-  }, []);
+
+    return () => {
+      isActive = false; // cleanup if navigating away quickly
+    };
+  }, [])
+);
+
 
   if (loading) {
     return (
@@ -69,8 +84,7 @@ export default function DashboardScreen({ navigation }) {
           <Card.Content>
             <DashboardTile
               title={t.issuesReportedToday}
-              count={dashboardData.IssuesReportedToday}
-              onPress={() => navigation.navigate('Issue Details')}
+              count={dashboardData.issuesReportedToday}             
             />
           </Card.Content>
         </Card>
@@ -79,12 +93,10 @@ export default function DashboardScreen({ navigation }) {
           <Card.Content>
             <DashboardTile
               title={t.issuesResolvedToday}
-              count={dashboardData.IssuesResolvedToday}
-              onPress={() => navigation.navigate('Issue Details')}
+              count={dashboardData.issuesResolvedToday}
             />
           </Card.Content>
         </Card>
-
       </ScrollView>
     </View>
   );

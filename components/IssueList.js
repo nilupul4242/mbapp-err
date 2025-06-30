@@ -9,13 +9,16 @@ export default function IssueList({ issue }) {
     <Card style={[styles.card, { backgroundColor: colors.surface }]}>
       <Card.Content>
         <Title style={[styles.title, { color: colors.primary }]}>
-          {issue.title}
+          {issue.issueTitle}
         </Title>
         <Paragraph style={[styles.description, { color: colors.text }]}>
-          {issue.description}
+          {issue.issueDescription}
         </Paragraph>
         <Paragraph style={[styles.meta, { color: colors.disabled }]}>
-          Room: {issue.roomNumber} | Status: {issue.status}
+          Room: {issue.roomNumber} | Date: {issue.dateReported} 
+        </Paragraph>
+        <Paragraph style={[styles.meta, { color: colors.disabled }]}>
+          Assigned Person: {issue.assignedPerson}
         </Paragraph>
       </Card.Content>
     </Card>

@@ -1,19 +1,18 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Card, Text, useTheme, TouchableRipple } from 'react-native-paper';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Card, Text, useTheme } from 'react-native-paper';
 
 export default function DashboardTile({ title, count, onPress }) {
   const { colors } = useTheme();
 
   return (
-    <TouchableRipple onPress={onPress} style={styles.tile(colors)}>
+    <TouchableOpacity onPress={onPress} style={styles.tile(colors)}>
       <Card style={styles.card(colors)}>
         <Card.Content style={styles.content}>
           <Text style={styles.title(colors)}>{title}</Text>
           <Text style={styles.count(colors)}>{count}</Text>
         </Card.Content>
       </Card>
-    </TouchableRipple>
+    </TouchableOpacity>
   );
 }
 
