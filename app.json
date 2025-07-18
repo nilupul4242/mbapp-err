@@ -2,7 +2,6 @@
   "expo": {
     "name": "fehmlogExpo",
     "slug": "fehmlogExpo",
-    "projectId": "roomradar-ccc8f",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,9 +18,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff",
-        "package": "nilupul4242",
-        "versionCode": 1
+        "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.nilupul4242.fehmlogExpo"
@@ -33,7 +30,6 @@
       "eas": {
         "projectId": "d7586374-00af-4283-a877-01ee1754f906"
       }
-    },
-    "owner": "nilupul4242"
+    }
   }
 }

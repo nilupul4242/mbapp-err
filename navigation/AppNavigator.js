@@ -5,9 +5,7 @@ import IssueEntryScreen from '../screens/IssueEntryScreen';
 import IssueDetailsScreen from '../screens/IssueDetailsScreen';
 import UpdateIssueScreen from '../screens/UpdateIssueScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
-
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
